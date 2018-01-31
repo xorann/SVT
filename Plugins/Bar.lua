@@ -1,3 +1,7 @@
+local _, class = UnitClass("player")
+if class ~= "PRIEST" then
+	return
+end
 
 assert( SVT, "SVT not found!")
 
