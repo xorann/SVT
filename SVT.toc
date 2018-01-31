@@ -1,0 +1,31 @@
+## Interface: 11200
+## Title: SVT - Shadow Vulnerability Tracker
+## Notes: Keeps track of Shadow Vulnerability
+## Notes-deDE: Behält Schattenverwundbarkeit im Auge
+## Author: Dorann
+## Version: 1
+## OptionalDeps: Ace2
+## SavedVariables: SVTDB
+## X-Category: Priest
+
+Libs\AceLibrary\AceLibrary.lua
+Libs\AceOO-2.0\AceOO-2.0.lua
+Libs\AceAddon-2.0\AceAddon-2.0.lua
+Libs\AceDB-2.0\AceDB-2.0.lua
+Libs\AceConsole-2.0\AceConsole-2.0.lua
+Libs\AceEvent-2.0\AceEvent-2.0.lua
+Libs\AceLocale-2.2\AceLocale-2.2.lua
+Libs\AceDebug-2.0\AceDebug-2.0.lua
+Libs\AceHook-2.1\AceHook-2.1.lua
+Libs\Babble-Boss-2.2\Babble-Boss-2.2.lua
+Libs\Babble-Spell-2.2\Babble-Spell-2.2.lua
+Libs\Deformat-2.0\Deformat-2.0.lua
+Libs\Gratuity-2.0\Gratuity-2.0.lua
+Libs\SpellCache-1.0\SpellCache-1.0.lua
+Libs\SpellStatus-1.0\SpellStatus-1.0.lua
+Libs\PaintChips-2.0\PaintChips-2.0.lua
+
+Locales\Locale-enUS.lua
+Locales\Locale-deDE.lua
+SVT.lua
+Plugins\Bar.lua
