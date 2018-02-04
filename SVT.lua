@@ -42,13 +42,6 @@ SVT.cmdtable = {
 			type = "header",
 			name = " ",
 			order = 4,
-		},
-		anchor = {
-			type = "execute",
-			name = L["Show anchor"],
-			desc = L["Show the bar anchor frame."],
-			order = 5,
-			func = function() SVT:GetModule("Bar"):SVT_ShowAnchors() end,
 		}
 	}
 }
@@ -81,6 +74,7 @@ function SVT:OnEnable()
 	self:RegisterEvent("CHAT_MSG_SPELL_DAMAGESHIELDS_ON_SELF", "PlayerDamageEvents")
 	self:RegisterEvent("PLAYER_REGEN_ENABLED")
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
+	self:RegisterEvent("SVT_Test", "TestBar")
 end
 
 function SVT:OnDisable()
@@ -245,4 +239,8 @@ end
 
 function SVT:HasShadowVulnerability()
 	return SVT:HasDebuff("Interface\\Icons\\Spell_Shadow_BlackPlague")
+end
+
+function SVT:TestBar()
+	SVT:GetModule("Bar"):Start("Test", 15, "Interface\\Icons\\Spell_Shadow_BlackPlague")
 end

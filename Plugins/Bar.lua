@@ -24,7 +24,6 @@ local Bar = SVT:NewModule("Bar")
 Bar.revision = 1
 Bar.consoleCmd = L["bar"]
 
-
 Bar.consoleOptions = {
 	type = "group",
 	name = L["Bar"],
@@ -42,7 +41,7 @@ Bar.consoleOptions = {
 			name = L["Reset position"],
 			desc = L["Reset the anchor position, moving it to the original position."],
 			order = 2,
-			func = function() Bar:RestorePosition() end,
+			func = function() Bar:ResetAnchor() end,
 		},
 		scale = {
 			type = "range",
@@ -66,9 +65,7 @@ Bar.consoleOptions = {
         },
 	},
 }
-
---/run BigWigs:Print(SVT:GetModule("Bar").db)
---/run SVT:RegisterDefaults("Bar", "profile", {a=1})
+SVT.cmdtable.args[L["Bar"]] = Bar.consoleOptions
 Bar.defaultDB = {
 	scale = 1.0,
 	texture = "BantoBar",
@@ -154,6 +151,7 @@ function Bar:CreateBar(text, time, icon, color)
 		self:SetCandyBarTexture(id, surface:Fetch(self.db.profile.texture))
 
 		self:SetCandyBarScale(id, self.db.profile.scale or 1)
+		self:SetCandyBarWidth(id, 185)
 		self:SetCandyBarFade(id, .5)
 		self:StartCandyBar(id, true)
 		
@@ -327,4 +325,15 @@ function Bar:RestorePosition()
 
 	f:ClearAllPoints()
 	f:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x / s, y / s)
+end
+
+function Bar:ResetAnchor()
+	if not self.frames.anchor then 
+		self:SetupFrames() 
+	end
+	
+	self.frames.anchor:ClearAllPoints()
+	self.frames.anchor:SetPoint("CENTER", UIParent, "CENTER")
+	self.db.profile.posx = nil
+	self.db.profile.posy = nil
 end
