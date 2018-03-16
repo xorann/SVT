@@ -42,7 +42,14 @@ SVT.cmdtable = {
 			type = "header",
 			name = " ",
 			order = 4,
-		}
+		},
+		mindflay = {
+			type = "execute",
+			name = L["Mind Flay"],
+			desc = L["Start Channeling Mind Flay if you are not already channeling."],
+			order = 5,
+			func = function() SVT:SpamMindFlay() end,
+		},
 	}
 }
 SVT:RegisterChatCommand({"/svt"}, SVT.cmdtable)
@@ -101,12 +108,12 @@ SVT.OnMenuRequest = SVT.cmdtable
 -- Variables     			--
 ------------------------------
 local BS = AceLibrary("Babble-Spell-2.2")
+local SS = AceLibrary("SpellStatus-1.0")
 
 SVT.target = nil
 SVT.lastResist = GetTime()
 SVT.lastVictim = nil
 SVT.debuffs = {}
-
 
 ----------------------
 -- Event Handlers  	--
@@ -122,6 +129,8 @@ function SVT:SpellStatus_SpellCastChannelingStart(sId, sName, sRank, sFullName, 
 			end
 		end
 	end
+	
+	SVT.channeling = true
 end
 
 function SVT:SpellStatus_SpellCastInstant(sId, sName, sRank, sFullName, sCastTime)
@@ -134,6 +143,12 @@ function SVT:SpellStatus_SpellCastInstant(sId, sName, sRank, sFullName, sCastTim
 				--self:DebugMessage("Mind Flay - ".. self.lastVictim.." "..GetTime())
 			end
 		end
+	end
+end
+
+function SVT:SpamMindFlay()
+	if not SS:IsChanneling() then
+		CastSpellByName(BS["Mind Flay"])
 	end
 end
 
@@ -180,6 +195,7 @@ end
 function SVT:DelayedBar()
 	self.debuffs[self.lastVictim] = GetTime() - 0.2
 	SVT:GetModule("Bar"):Start(self.lastVictim, 15 - 0.2, "Interface\\Icons\\Spell_Shadow_BlackPlague")
+	self:ScheduleEvent("ShadowVulneReckeckTargetChange" .. self.lastVictim, self.Warning, 15 - 5 - 0.2, self, self.lastVictim)
 end
 
 function SVT:PLAYER_REGEN_ENABLED()
@@ -199,6 +215,10 @@ function SVT:RecheckTargetChange()
 		local victim, timeleft = self:GetTargetInfo()
 		if victim and timeleft and self.db.profile.enable then
 			SVT:GetModule("Bar"):Start(victim, timeleft, "Interface\\Icons\\Spell_Shadow_BlackPlague")
+			if timeleft - 5 > 0 then
+				self:ScheduleEvent("ShadowVulneReckeckTargetChange" .. victim, self.Warning, timeleft - 5, self, victim)
+				self:Print(victim)
+			end
 		end
 	end
 end
@@ -214,6 +234,14 @@ end
 -----------------------
 -- Utility Functions --
 -----------------------
+function SVT:Warning(victim)
+	if victim then
+		SVT:GetModule("Bar"):ChangeColor(victim, "red")
+		PlaySoundFile("Interface\\AddOns\\SVT\\Sounds\\AlertSound16.mp3")
+		--PlaySound("RaidWarning") 
+	end
+end
+
 function SVT:GetTargetInfo()
 	for k, v in pairs(self.debuffs) do
 		if k == self.target then

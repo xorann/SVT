@@ -33,6 +33,10 @@ L:RegisterTranslations("enUS",
 			["Test"] = true,
 			["Close"] = true,
 			
+			-- mind flay
+			["Mind Flay"] = true,
+			["Start Channeling Mind Flay if you are not already channeling."] = true,
+			
 			-- FuBar
 			["|cffeda55fRight click|r to show the options menu."] = true,
 		}

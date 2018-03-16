@@ -134,6 +134,11 @@ function Bar:Stop()
 	end
 end
 
+function Bar:ChangeColor(text, color)
+	local id = "Bar " .. text
+	self:SetCandyBarColor(id, color, 1)
+end
+
 function Bar:CreateBar(text, time, icon, color)
 	if text and time then
 		local id = "Bar " .. text
