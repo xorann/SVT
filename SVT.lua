@@ -201,6 +201,7 @@ end
 function SVT:PLAYER_REGEN_ENABLED()
 	self.target = nil
 	SVT:GetModule("Bar"):Stop()
+	self:CancelAllScheduledEvents()
 	self.debuffs = {}
 end
 
